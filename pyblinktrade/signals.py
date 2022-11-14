@@ -75,8 +75,7 @@ class Signal:
                         func(sender, data)
                         sent = True
 
-                    # pylint: disable=W0702
-                    except:
+                    except Exception:
                         errors.append(traceback.format_exc())
 
             publish_functions(self._functions)
@@ -93,7 +92,7 @@ class Signal:
                             sent = True
 
                         # pylint: disable=W0702
-                        except:
+                        except Exception:
                             errors.append(traceback.format_exc())
 
             publish_methods(self._methods)

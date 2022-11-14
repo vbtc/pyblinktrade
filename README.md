@@ -1,1 +1,1 @@
-pybrlinktrade - Utilities for Blinktrade platform 
+pyblinktrade - Utilities for Blinktrade platform 

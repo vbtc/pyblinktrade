@@ -96,9 +96,9 @@ class JsonMessage(BaseMessage):
             if not (type(val) == float or type(val) == int) or val < 0:
                 raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_not_in(self, tag, list):
+    def raise_exception_if_not_in(self, tag, _list):
         val = self.get(tag)
-        if val not in list:
+        if val not in _list:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
     def raise_exception_if_length_is_greater_than(self, tag, length):
