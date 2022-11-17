@@ -1,8 +1,8 @@
 __author__ = 'rodrigo'
 
+import signals
 import unittest
 
-from .signals import Signal
 
 signal_calls = []
 
@@ -17,8 +17,8 @@ class A(object):
 
 
 class B(object):
-    def __init__(self, signal):
-        signal.connect(self.onSignalMethod)
+    def __init__(self, sig):
+        sig.connect(self.onSignalMethod)
 
     def onSignalMethod(self, sender, data):
         signal_calls.append(('B::onSignalMethod', sender, data))
@@ -26,8 +26,8 @@ class B(object):
 
 class TestSignal(unittest.TestCase):
     def setUp(self):
-        self.sig_function = Signal()
-        self.sig_method = Signal()
+        self.sig_function = signals.Signal()
+        self.sig_method = signals.Signal()
         self.sig_function.connect(onSignalFunction)
 
         global signal_calls
