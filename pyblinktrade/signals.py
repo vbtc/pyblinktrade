@@ -85,7 +85,7 @@ class Signal:
                     del self._functions_subs[sender]
 
             def publish_methods(methods):
-                for obj, funcs in methods.items():
+                for obj, funcs in list(methods.items()):
                     for func in funcs:
                         try:
                             func(obj, sender, data)

@@ -81,7 +81,7 @@ class JsonMessage(BaseMessage):
 
     def raise_exception_if_not_string(self, tag):
         val = self.get(tag)
-        if not (type(val) == str or type(val) == unicode):
+        if not (type(val) == str or type(val) == str):
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
     def raise_exception_if_not_greater_than_zero(self, tag):
@@ -335,7 +335,7 @@ class JsonMessage(BaseMessage):
 
             return _method
 
-        for k, v in self.valid_message_types.iteritems():
+        for k, v in self.valid_message_types.items():
             _method = make_helper_is_message_type(k)
             setattr(JsonMessage, 'is' + v, _method)
 
@@ -962,5 +962,5 @@ class JsonMessage(BaseMessage):
 
     def set(self, attr, value):
         self.message[attr] = value
-        self.raw_message = json.dumps(dict(self.message.items() + {'MsgType': self.type}.items()))
+        self.raw_message = json.dumps(dict(list(self.message.items()) + list({'MsgType': self.type}.items())))
         return self

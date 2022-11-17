@@ -2,7 +2,7 @@ __author__ = 'rodrigo'
 
 import unittest
 
-from signals import Signal
+from .signals import Signal
 
 signal_calls = []
 

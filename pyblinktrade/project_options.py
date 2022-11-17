@@ -24,7 +24,7 @@ class ProjectOptions(object):
 
             return _getter
 
-        for k, v in self.items():
+        for k, v in list(self.items()):
             _getter = make_getters(k)
             setattr(ProjectOptions, k, _getter)
 
