@@ -5,7 +5,7 @@ description = "Blinktrade Python API library"
 authors = ["Rodrigo Souza <r@blinktrade.com>"]
 
 [tool.poetry.dependencies]
-python = "^2.7"
+python = "^3.8, <3.11"
 
 [tool.poetry.dev-dependencies]
 
