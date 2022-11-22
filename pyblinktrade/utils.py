@@ -1,7 +1,5 @@
-import types
 
-
-def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
+def smart_str(s, encoding: str = 'utf-8', strings_only: bool = False, errors='strict'):
     """
     Returns a bytestring version of 's', encoded as specified in 'encoding'.
 

@@ -1,6 +1,7 @@
 __author__ = 'rodrigo'
 
 import json
+from typing import Any
 
 
 class InvalidMessageException(Exception):
@@ -16,41 +17,41 @@ class InvalidMessageException(Exception):
 
 
 class InvalidMessageLengthException(InvalidMessageException):
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Invalid message length'
 
 
 class InvalidMessageTypeException(InvalidMessageException):
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Invalid Message Type (%s)' % str(self.tag)
 
 
 class InvalidMessageMissingTagException(InvalidMessageException):
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Missing tag %s' % str(self.tag)
 
 
 class InvalidMessageFieldException(InvalidMessageException):
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Invalid value tag(%s)=%s' % (self.tag, self.value)
 
 
-class BaseMessage(object):
+class BaseMessage:
     MAX_MESSAGE_LENGTH = 10024 * 1000
 
     def __init__(self, raw_message):
         self.raw_message = raw_message
 
-    def has(self, attr):
+    def has(self, attr) -> None:
         raise NotImplementedError()
 
-    def get(self, attr, default):
+    def get(self, attr, default) -> None:
         raise NotImplementedError()
 
-    def set(self, attr, value):
+    def set(self, attr, value) -> None:
         raise NotImplementedError()
 
-    def is_valid(self):
+    def is_valid(self) -> None:
         raise NotImplementedError()
 
 
@@ -60,26 +61,26 @@ class JsonMessage(BaseMessage):
 
     MAX_MESSAGE_LENGTH = 10024 * 1000
 
-    def raise_exception_if_required_tag_is_missing(self, tag):
+    def raise_exception_if_required_tag_is_missing(self, tag) -> None:
         if tag not in self.message:
             raise InvalidMessageMissingTagException(self.raw_message, self.message, tag)
 
-    def raise_exception_if_not_a_integer(self, tag):
+    def raise_exception_if_not_a_integer(self, tag) -> None:
         val = self.get(tag)
         if not type(val) == int:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_not_a_number(self, tag):
+    def raise_exception_if_not_a_number(self, tag) -> None:
         val = self.get(tag)
         if not (type(val) == float or type(val) == int):
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_empty(self, tag):
+    def raise_exception_if_empty(self, tag) -> None:
         val = self.get(tag)
         if not val:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_not_string(self, tag):
+    def raise_exception_if_not_string(self, tag) -> None:
         val = self.get(tag)
         if not (type(val) == str or type(val) == str):
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
@@ -943,10 +944,10 @@ class JsonMessage(BaseMessage):
             self.raise_exception_if_required_tag_is_missing("SecondFactor")
             self.raise_exception_if_not_string("SecondFactor")
 
-    def __contains__(self, value):
+    def __contains__(self, value) -> bool:
         return value in self.message
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Any:
         return self.message[key]
 
     def __setitem__(self, key, val):

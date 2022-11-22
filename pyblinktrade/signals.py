@@ -20,7 +20,7 @@ class Signal:
             Signal.signal_error = 1
             Signal.signal_error = Signal()
 
-    def connect(self, slot, sender=None):
+    def connect(self, slot, sender=None) -> None:
         if sender:
             if inspect.ismethod(slot):
                 if sender not in self._methods_subs:
@@ -42,7 +42,7 @@ class Signal:
             else:
                 self._functions.add(slot)
 
-    def disconnect(self, slot, sender=None):
+    def disconnect(self, slot, sender=None) -> None:
         if sender:
             if inspect.ismethod(slot):
                 if sender in self._methods_subs:
@@ -64,7 +64,7 @@ class Signal:
             else:
                 self._functions.remove(slot)
 
-    def __call__(self, sender, data=None, error_signal_on_error=True):
+    def __call__(self, sender, data=None, error_signal_on_error=True) -> bool:
         with self._lock:
             sent = False
             errors = []

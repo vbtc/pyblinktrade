@@ -7,25 +7,25 @@ import unittest
 signal_calls = []
 
 
-def onSignalFunction(sender, data):
+def onSignalFunction(sender, data) -> None:
     signal_calls.append(('function', sender, data))
 
 
-class A(object):
-    def onSignalMethod(self, sender, data):
+class A:
+    def onSignalMethod(self, sender, data) -> None:
         signal_calls.append(('A::onSignalMethod', sender, data))
 
 
-class B(object):
+class B:
     def __init__(self, sig):
         sig.connect(self.onSignalMethod)
 
-    def onSignalMethod(self, sender, data):
+    def onSignalMethod(self, sender, data) -> None:
         signal_calls.append(('B::onSignalMethod', sender, data))
 
 
 class TestSignal(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.sig_function = signals.Signal()
         self.sig_method = signals.Signal()
         self.sig_function.connect(onSignalFunction)
@@ -33,7 +33,7 @@ class TestSignal(unittest.TestCase):
         global signal_calls
         signal_calls = []
 
-    def test_signal_function(self):
+    def test_signal_function(self) -> None:
         self.sig_function('sender1', 'data1')
         self.assertEqual(1, len(signal_calls))
 
@@ -41,7 +41,7 @@ class TestSignal(unittest.TestCase):
         self.assertEqual('sender1', signal_calls[0][1])
         self.assertEqual('data1', signal_calls[0][2])
 
-    def test_signal_method(self):
+    def test_signal_method(self) -> None:
         a = A()
         self.sig_method.connect(a.onSignalMethod)
 
@@ -68,7 +68,7 @@ class TestSignal(unittest.TestCase):
         self.sig_method('sender3', 'data3')
         self.assertEqual(2, len(signal_calls))
 
-    def test_sender_signal_method(self):
+    def test_sender_signal_method(self) -> None:
         a = A()
         self.sig_method.connect(a.onSignalMethod, 'sender1')
 
@@ -89,7 +89,7 @@ class TestSignal(unittest.TestCase):
         self.sig_method('sender1', 'data3')
         self.assertEqual(2, len(signal_calls))
 
-    def test_sender_signal_function(self):
+    def test_sender_signal_function(self) -> None:
         def on_signal_func(sender, data):
             signal_calls.append(('function', sender, data))
 

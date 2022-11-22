@@ -1,17 +1,18 @@
 import time
 import random
+from typing import Optional, Any
 
 
-class MessageBuilder(object):
+class MessageBuilder:
     @staticmethod
-    def testRequestMessage(request_id=None):
+    def testRequestMessage(request_id: Optional[int]):
         if request_id:
             return {'MsgType': '1', 'TestReqID': request_id}
         else:
             return {'MsgType': '1', 'TestReqID': int(time.time() * 1000)}
 
     @staticmethod
-    def login(broker_id, user, password, second_factor=None):
+    def login(broker_id, user: str, password: str, second_factor=None) -> dict[str, str]:
         if not user or not password:
             raise ValueError('Invalid parameters')
 
@@ -29,7 +30,7 @@ class MessageBuilder(object):
         return loginMsg
 
     @staticmethod
-    def getDepositList(status_list, opt_filter=None, client_id=None, page=0, page_size=100, opt_request_id=None):
+    def getDepositList(status_list: Any, opt_filter: Optional[Any], client_id: Optional[int], page: int = 0, page_size: int = 100, opt_request_id: Optional[int] = None):
         if not opt_request_id:
             opt_request_id = random.randint(1, 10000000)
 
@@ -48,7 +49,7 @@ class MessageBuilder(object):
         return msg
 
     @staticmethod
-    def updateProfile(update_dict, opt_user_id=None, opt_request_id=None):
+    def updateProfile(update_dict: Any, opt_user_id: Optional[int], opt_request_id: Optional[int]):
         if not opt_request_id:
             opt_request_id = random.randint(1, 10000000)
 
@@ -62,7 +63,7 @@ class MessageBuilder(object):
         return msg
 
     @staticmethod
-    def getWithdrawList(status_list, opt_filter=None, client_id=None, page=0, page_size=100, opt_request_id=None):
+    def getWithdrawList(status_list, opt_filter=None, client_id=None, page: int = 0, page_size: int = 100, opt_request_id: Optional[int] = None):
         if not opt_request_id:
             opt_request_id = random.randint(1, 10000000)
 
