@@ -332,8 +332,8 @@ class JsonMessage(BaseMessage):
             'ERROR': 'ErrorMessage',
         }
 
-        def make_helper_is_message_type(tag):
-            def _method(self):
+        def make_helper_is_message_type(tag) -> {type}:
+            def _method(self) -> bool:
                 return self.type == tag
 
             return _method
