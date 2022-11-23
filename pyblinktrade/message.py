@@ -1,7 +1,9 @@
 __author__ = 'rodrigo'
 
 import json
-from typing import Any
+from typing import Any, TypeVar
+
+T = TypeVar('T', bound='BaseMessage')
 
 
 class InvalidMessageException(Exception):
@@ -12,7 +14,7 @@ class InvalidMessageException(Exception):
         self.tag = tag
         self.value = value
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Invalid Message'
 
 
@@ -42,16 +44,16 @@ class BaseMessage:
     def __init__(self, raw_message):
         self.raw_message = raw_message
 
-    def has(self, attr) -> None:
+    def has(self, attr) -> bool:
         raise NotImplementedError()
 
-    def get(self, attr, default) -> None:
+    def get(self, attr, default) -> Any:
         raise NotImplementedError()
 
-    def set(self, attr, value) -> None:
+    def set(self, attr, value) -> 'BaseMessage':
         raise NotImplementedError()
 
-    def is_valid(self) -> None:
+    def is_valid(self) -> bool:
         raise NotImplementedError()
 
 
@@ -85,37 +87,37 @@ class JsonMessage(BaseMessage):
         if not (type(val) == str or type(val) == str):
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_not_greater_than_zero(self, tag):
+    def raise_exception_if_not_greater_than_zero(self, tag) -> None:
         self.raise_exception_if_not_a_number(tag)
         val = self.get(tag)
         if not val > 0:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_optional_field_is_a_negative_number(self, tag):
+    def raise_exception_if_optional_field_is_a_negative_number(self, tag) -> None:
         val = self.message.get(tag)
         if val:
             if not (type(val) == float or type(val) == int) or val < 0:
                 raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_not_in(self, tag, _list):
+    def raise_exception_if_not_in(self, tag, _list) -> None:
         val = self.get(tag)
         if val not in _list:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_length_is_greater_than(self, tag, length):
+    def raise_exception_if_length_is_greater_than(self, tag, length) -> None:
         val = self.get(tag)
         if val is not None and len(val) > length:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def raise_exception_if_length_is_less_than(self, tag, length):
+    def raise_exception_if_length_is_less_than(self, tag, length) -> None:
         val = self.get(tag)
         if len(val) < length:
             raise InvalidMessageFieldException(self.raw_message, self.message, tag, val)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.message)
 
-    def toJSON(self):
+    def toJSON(self) -> Any:
         return self.message
 
     def __init__(self, raw_message):
@@ -950,18 +952,18 @@ class JsonMessage(BaseMessage):
     def __getitem__(self, key) -> Any:
         return self.message[key]
 
-    def __setitem__(self, key, val):
+    def __setitem__(self, key, val) -> 'JsonMessage':
         return self.set(key, val)
 
-    def has(self, attr):
+    def has(self, attr) -> Any:
         return attr in self.message
 
-    def get(self, attr, default=None):
+    def get(self, attr, default=None) -> Any:
         if attr not in self.message:
             return default
         return self.message[attr]
 
-    def set(self, attr, value):
+    def set(self, attr, value) -> 'JsonMessage':
         self.message[attr] = value
         self.raw_message = json.dumps(dict(list(self.message.items()) + list({'MsgType': self.type}.items())))
         return self
