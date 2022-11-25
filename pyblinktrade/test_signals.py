@@ -1,6 +1,6 @@
 __author__ = 'rodrigo'
 
-import signals
+from pyblinktrade import signals
 import unittest
 
 
