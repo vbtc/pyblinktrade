@@ -3,19 +3,22 @@ name = "pyblinktrade"
 version = "1.0.0"
 description = "Blinktrade Python API library"
 authors = ["Rodrigo Souza <r@blinktrade.com>"]
+packages = [
+  {include = "pyblinktrade"},
+  {include = "pyblinktrade/py.typed"},
+]
 
 [tool.poetry.dependencies]
 python = "^3.8, <3.11"
-six = "^1.16.0"
 
 [tool.poetry.dev-dependencies]
+coverage = "^6.5.0"
 mypy = "^0.991"
 pylint = "^2.15.5"
 pytype = "^2022.11.10"
 modernize = "^0.8.0"
 
 [tool.poetry.group.dev.dependencies]
-
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
