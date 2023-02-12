@@ -26,3 +26,5 @@ files.txt
 
 # Pycharm IDE dir
 .idea
+
+.mypy_cache
